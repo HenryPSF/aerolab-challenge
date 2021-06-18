@@ -17,7 +17,6 @@ export const ProductsListProvider = ({ children }) =>
             await getProducts().then(result =>
             {
                 setProducts(result);
-                //setLoading(false);
             })
         }
 
@@ -26,7 +25,6 @@ export const ProductsListProvider = ({ children }) =>
             await getRedeemedProducts().then(result =>
             {
                 setProducts(result);
-                //setLoading(false);
             })
         }
 
@@ -43,7 +41,9 @@ export const ProductsListProvider = ({ children }) =>
             products,
             setProducts,
             isRedeemedProductList,
-            setIsRedeemedProductList
+            setIsRedeemedProductList,
+            loading,
+            setLoading
         ]}>
         {children}
     </ProductsListContext.Provider>
