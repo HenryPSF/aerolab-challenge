@@ -8,7 +8,7 @@ const Header = () =>
 			<Image src={headerImage}
 				alt="Electronics"
 			/>
-			<Title>Electronics</Title>
+			<Title>Electronics Store</Title>
 		</HeaderContainer>
 	);
 };
