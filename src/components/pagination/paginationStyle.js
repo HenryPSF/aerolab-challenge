@@ -4,7 +4,7 @@ export const PaginationContainer = style.div`
 	display: flex;
 	align-items: center;
 	margin: 0.5rem 0 0.5rem 0;
-    color: "#616161"
+    color: ${props => props.theme.fonts.primaryColor}
 `;
 
 export const PaginationText = style.p`
