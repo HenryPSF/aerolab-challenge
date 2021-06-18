@@ -5,6 +5,7 @@ import RedeemCoins from './pages/coins'
 import NavBar from './components/navbar';
 import Header from './components/header'
 
+import { HeaderProvider } from './context/HeaderContext';
 import { UserProvider } from './context/UserContext'
 import { FilterProvider } from './context/FilterContext'
 import { ProductsListProvider } from './context/ProductsListContext';
@@ -14,6 +15,7 @@ function App()
   return (
     <BrowserRouter>
       <UserProvider>
+        <HeaderProvider>
         <ProductsListProvider>
           <FilterProvider>
             <NavBar />
@@ -28,6 +30,7 @@ function App()
             </Switch>
           </FilterProvider>
         </ProductsListProvider>
+        </HeaderProvider>
       </UserProvider>
     </BrowserRouter>
   )

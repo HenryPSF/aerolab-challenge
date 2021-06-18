@@ -92,5 +92,5 @@ This project is open source and it is under the license [MIT](https://opensource
 
 ## Thanks 🎁
 
-* To ll the developer who provide their knowledge in a selfless way through youtube and blocks 📢
-* To Pedro for giving me the opportunity to participate in this challenge and reminding me how much fun programming is ❤️ 🤓
+* To all the developer who provide their knowledge in a selfless way through youtube and blocks 📢
+* To Aerolab for giving me the opportunity to participate in this challenge and reminding me how much fun programming is ❤️ 🤓

@@ -14,8 +14,11 @@ export const getProducts = () =>
         headers
     })
         .then(response => response.json())
-        .then(result => result)
-        .catch(error => console.log('error', error));
+        .then(result =>
+        {
+            return result.success !== false ? result : [];
+        })
+        .catch(error => { console.log('error', error); return [] });
 }
 
 export const getRedeemedProducts = () =>
@@ -25,8 +28,11 @@ export const getRedeemedProducts = () =>
         headers
     })
         .then(response => response.json())
-        .then(result => result)
-        .catch(error => console.log('error', error));
+        .then(result =>
+        {
+            return result.success !== false ? result : [];
+        })
+        .catch(error => { console.log('error', error); return [] });
 }
 
 
@@ -37,8 +43,11 @@ export const getUserInfo = () =>
         headers
     })
         .then(response => response.json())
-        .then(result => result)
-        .catch(error => console.log('error', error));
+        .then(result =>
+        {
+            return result.success !== false ? result : { name: '', points: 0 };
+        })
+        .catch(error => { console.log('error', error); return { name: '', points: 0 } });
 }
 
 export const postRedeem = async (productId) =>
@@ -51,11 +60,11 @@ export const postRedeem = async (productId) =>
         body
     };
 
-    const redeemResult = await fetch(`${apiURL}/redeem`, requestOptions)    
+    const redeemResult = await fetch(`${apiURL}/redeem`, requestOptions)
         .then(async result => 
         {
-            const message =await result.json()
-            return result.status === 200 ? {success: true, message} : {success:false, message};
+            const message = await result.json()
+            return result.status === 200 ? { success: true, message } : { success: false, message };
         })
         .catch(error =>
         {
@@ -63,14 +72,14 @@ export const postRedeem = async (productId) =>
 
             return false;
         });
-        
+
     return new Promise(resolve => resolve(redeemResult));
 };
 
 
 export const postRedeemCoins = async (amount) =>
 {
-    const body = JSON.stringify({ "amount": amount});
+    const body = JSON.stringify({ "amount": amount });
 
     const requestOptions = {
         method: 'POST',
@@ -78,11 +87,11 @@ export const postRedeemCoins = async (amount) =>
         body
     };
 
-    const redeemResult = await fetch(`${apiURL}/user/points`, requestOptions)    
+    const redeemResult = await fetch(`${apiURL}/user/points`, requestOptions)
         .then(async result => 
         {
-            const message =await result.json()
-            return result.status === 200 ? {success: true, message} : {success:false, message};
+            const message = await result.json()
+            return result.status === 200 ? { success: true, message } : { success: false, message };
         })
         .catch(error =>
         {
@@ -90,6 +99,6 @@ export const postRedeemCoins = async (amount) =>
 
             return false;
         });
-        
+
     return new Promise(resolve => resolve(redeemResult));
 };

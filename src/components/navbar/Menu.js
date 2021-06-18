@@ -35,13 +35,11 @@ function Menu()
                 {isOpen ? (
                     <FontAwesomeIcon
                         icon={faTimes}
-                        color={props => props.theme.colors.primary}
                         size="lg"
                     />
                 ) : (
                     <FontAwesomeIcon
                         icon={faBars}
-                        color={props => props.theme.colors.primary}
                         size="lg"
                     />
                 )}

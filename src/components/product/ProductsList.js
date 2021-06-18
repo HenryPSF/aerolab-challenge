@@ -1,7 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 
+import { HeaderContext } from "../../context/HeaderContext";
+
 import { FilterContext } from '../../context/FilterContext';
 
+import Spinner from '../spinner/Spinner';
 import Paginator from './../pagination';
 import Filter from '../filter';
 import Product from './Product';
@@ -10,7 +13,7 @@ import Product from './Product';
 import { ProductListContainer, FilterContainer, Container } from './productListStyle';
 import { PaginationBottomContainer, PaginationText, Line } from '../pagination/paginationStyle';
 
-const ProductsList = ({ isRedeemedProductList, products }) =>
+const ProductsList = ({ isRedeemedProductList, products, loading, setLoading }) =>
 {
     const [filter] = useContext(FilterContext);
 
@@ -39,11 +42,13 @@ const ProductsList = ({ isRedeemedProductList, products }) =>
         }
     }
 
-    const handleFilters = () =>
+    const handleFilters = async () =>
     {
         const productsToOrder = [...products];
         const orderedProducts = productsToOrder.sort(sortByPrice);
         setProductsToPaginate(orderedProducts);
+
+        return Promise.resolve(()=> {});
     }
 
     useEffect(() =>
@@ -54,53 +59,63 @@ const ProductsList = ({ isRedeemedProductList, products }) =>
 
     useEffect(() =>
     {
-        handleFilters();
+        const handleLoading = async () => {
+            await handleFilters().then(() => {
+                setLoading(false);
+            });
+        }
+        
+        handleLoading();
+
         // eslint-disable-next-line
     }, [filter, products]);
 
     useEffect(() =>
     {
-        setProductsToRender(productsToPaginate.slice(firstProductIndex, lastProductIndex))
+        setProductsToRender(productsToPaginate.slice(firstProductIndex, lastProductIndex));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productsToPaginate, currentPage]);
+    if (loading) {
+        return <Spinner/>
+    } else {
+        return (
+            <>
+                <Container>
+                    <FilterContainer>
+                        <Filter filter={filter} />
+                    </FilterContainer>
+                    <Paginator
+                        currentPage={currentPage}
+                        pagesToRender={pagesToRender}
+                        setCurrentPage={setCurrentPage}
+                        isPaginationBottom={true} />
+                </Container>
+                <ProductListContainer>
+                    {
 
-    return (
-        <>
-            <Container>
-                <FilterContainer>
-                    <Filter filter={filter} />
-                </FilterContainer>
-                <Paginator
-                    currentPage={currentPage}
-                    pagesToRender={pagesToRender}
-                    setCurrentPage={setCurrentPage}
-                    isPaginationBottom={true} />
-            </Container>
-            <ProductListContainer>
-                {
-
-                    productsToRender.map(product =>
-                        <Product
-                            key={`${product._id}${product.createDate ? product.createDate : ''}`}
-                            {...product}
-                            isRedeemedProductList={isRedeemedProductList}
-                        />)
-                }
-            </ProductListContainer>
-            <Line />
-            <PaginationBottomContainer>
-                <PaginationText>
-                    Page {currentPage} of {pagesToRender}
-                </PaginationText>
-                <Paginator
-                    currentPage={currentPage}
-                    pagesToRender={pagesToRender}
-                    setCurrentPage={setCurrentPage}
-                    isPaginationBottom={true} />
-            </PaginationBottomContainer>
-            <Line />
-        </>
-    )
+                        productsToRender.map(product =>
+                            <Product
+                                key={`${product._id}${product.createDate ? product.createDate : ''}`}
+                                {...product}
+                                isRedeemedProductList={isRedeemedProductList}
+                            />)
+                    }
+                </ProductListContainer>
+                <Line />
+                <PaginationBottomContainer>
+                    <PaginationText>
+                        Page {currentPage} of {pagesToRender}
+                    </PaginationText>
+                    <Paginator
+                        currentPage={currentPage}
+                        pagesToRender={pagesToRender}
+                        setCurrentPage={setCurrentPage}
+                        isPaginationBottom={true} />
+                </PaginationBottomContainer>
+                <Line />
+            </>
+        )
+    }
 };
 
 export default ProductsList;
