@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-function App() {
+import Home from './pages/home'
+import RedeemCoins from './pages/coins'
+import NavBar from './components/navbar';
+import Header from './components/header'
+
+import { UserProvider } from './context/UserContext'
+import { FilterProvider } from './context/FilterContext'
+import { ProductsListProvider } from './context/ProductsListContext';
+
+function App()
+{
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <UserProvider>
+        <ProductsListProvider>
+          <FilterProvider>
+            <NavBar />
+            <Header />
+            <Switch>
+              <Route exact path="/" >
+                <Home />
+              </Route>
+              <Route>
+                <RedeemCoins path="/redeemcoins" component={RedeemCoins}/>
+              </Route>
+            </Switch>
+          </FilterProvider>
+        </ProductsListProvider>
+      </UserProvider>
+    </BrowserRouter>
+  )
 }
 
 export default App;
